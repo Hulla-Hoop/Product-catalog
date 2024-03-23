@@ -20,10 +20,14 @@ func main() {
 		fmt.Println(err)
 	}
 
-	sham, err := db.CreateGoods("", "Shamil", 1)
+	sham, err := db.CreateGoods("", "Shamil")
+	if err != nil {
+		fmt.Println(err)
+	}
+	s, err := db.DeleteGoods("", 2)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Println(sham)
+	fmt.Println(sham, s)
 }

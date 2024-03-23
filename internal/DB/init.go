@@ -7,6 +7,7 @@ import (
 	"testinhousead/internal/logger"
 
 	_ "github.com/lib/pq"
+	"github.com/pressly/goose"
 )
 
 type sqlPostgres struct {
@@ -24,11 +25,11 @@ func InitDb(logger *logger.Logger) (*sqlPostgres, error) {
 		return nil, err
 	}
 
-	/* err = goose.Up(dB, "migrations/psql")
+	err = goose.Up(dB, "migrations")
 	if err != nil {
 		return nil,
 			fmt.Errorf("--- Ошибка миграции:%s", err)
-	} */
+	}
 	return &sqlPostgres{
 		dB:     dB,
 		logger: logger,
