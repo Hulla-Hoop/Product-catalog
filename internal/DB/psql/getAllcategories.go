@@ -1,13 +1,13 @@
-package db
+package psql
 
 import (
 	"testinhousead/internal/model"
 )
 
-func (db *sqlPostgres) AllCategories(reqID string) ([]model.Category, error) {
+func (db *psql) AllCategories(reqID string) ([]model.Category, error) {
 	var categories []model.Category
 
-	str := ` SELECT * FROM categories; `
+	str := ` SELECT * FROM categories WHERE removed=false; `
 
 	row, err := db.dB.Query(str)
 
@@ -20,7 +20,7 @@ func (db *sqlPostgres) AllCategories(reqID string) ([]model.Category, error) {
 
 	for row.Next() {
 
-		err := row.Scan(&category)
+		err := row.Scan(&category.ID, &category.Name, &category.Removed, &category.Updated_at, &category.Created_at)
 		if err != nil {
 			db.logger.L.WithField("psql.Meta", reqID).Error(err)
 			continue

@@ -1,11 +1,11 @@
-package db
+package psql
 
 import (
 	"fmt"
 	"testinhousead/internal/model"
 )
 
-func (db *sqlPostgres) CreateCategory(reqId string, name string) (*model.Category, error) {
+func (db *psql) CreateCategory(reqId string, name string) (*model.Category, error) {
 	var category model.Category
 
 	db.logger.L.WithField("psql.Create", reqId).Debug("db create полученные данные---", name)

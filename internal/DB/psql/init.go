@@ -1,4 +1,4 @@
-package db
+package psql
 
 import (
 	"database/sql"
@@ -10,12 +10,12 @@ import (
 	"github.com/pressly/goose"
 )
 
-type sqlPostgres struct {
+type psql struct {
 	dB     *sql.DB
 	logger *logger.Logger
 }
 
-func InitDb(logger *logger.Logger) (*sqlPostgres, error) {
+func InitDb(logger *logger.Logger) (*psql, error) {
 	config := config.DbNew()
 
 	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s port=%s sslmode=%s", config.Host, config.User, config.DBName, config.Password, config.Port, config.SSLMode)
@@ -30,13 +30,13 @@ func InitDb(logger *logger.Logger) (*sqlPostgres, error) {
 		return nil,
 			fmt.Errorf("--- Ошибка миграции:%s", err)
 	}
-	return &sqlPostgres{
+	return &psql{
 		dB:     dB,
 		logger: logger,
 	}, nil
 
 }
 
-func (s *sqlPostgres) Close() error {
+func (s *psql) Close() error {
 	return s.dB.Close()
 }

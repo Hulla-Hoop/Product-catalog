@@ -1,4 +1,4 @@
-package db
+package psql
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (db *sqlPostgres) UpdateCategory(reqId string, id int, name string) (*model.Category, error) {
+func (db *psql) UpdateCategory(reqId string, id int, name string) (*model.Category, error) {
 	var category model.Category
 	now := time.Now()
 	str := fmt.Sprintf(`

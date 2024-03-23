@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	db "testinhousead/internal/DB"
+	"testinhousead/internal/DB/psql"
 	"testinhousead/internal/logger"
 
 	"github.com/joho/godotenv"
@@ -15,19 +15,15 @@ func main() {
 	if err != nil {
 		log.L.Info("Не загружается .env файл")
 	}
-	db, err := db.InitDb(log)
+	db, err := psql.InitDb(log)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	sham, err := db.CreateGoods("", "Shamil")
+	cat, err := db.GoodsOnCateory("", "Flour")
 	if err != nil {
 		fmt.Println(err)
 	}
-	s, err := db.DeleteGoods("", 2)
-	if err != nil {
-		fmt.Println(err)
-	}
+	fmt.Println(cat)
 
-	fmt.Println(sham, s)
 }
