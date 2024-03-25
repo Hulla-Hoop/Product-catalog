@@ -10,10 +10,10 @@ func (db *psql) CreateCategory(reqId string, name string) (*model.Category, erro
 
 	db.logger.L.WithField("psql.Create", reqId).Debug("db create полученные данные---", name)
 	err := db.dB.QueryRow(
-		`INSERT INTO category(name) 
+		`INSERT INTO categories(name) 
 		 VALUES ($1) returning *`,
 		name,
-	).Scan(&category.ID, &category.Name, &category.Updated_at, &category.Created_at)
+	).Scan(&category.ID, &category.Name, &category.Removed, &category.Updated_at, &category.Created_at)
 
 	db.logger.L.WithField("psql.Create", reqId).Debug("db create выходные данные ---", category)
 	if err != nil {

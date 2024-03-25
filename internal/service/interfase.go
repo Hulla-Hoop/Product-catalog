@@ -1,15 +1,13 @@
 package service
 
-import "testinhousead/internal/model"
-
 type MarketService interface {
-	CreateCategory(reqId string, name string) (*model.Category, error)
-	DeleteCategory(reqId string, id int) (*model.Category, error)
-	UpdateCategory(reqId string, id int, name string) (*model.Category, error)
-	AllCategories(reqID string) ([]model.Category, error)
-	GoodsOnCateory(reqID string, category string) ([]model.Product, error)
-	CreateGoods(reqId string, name string) (*model.Goods, error)
-	DeleteGoods(reqId string, id int) (*model.Goods, error)
-	UpdateGoods(reqId string, id int, name string) (*model.Goods, error)
+	CreateCategory(reqId string, name string) ([]byte, error)
+	DeleteCategory(reqId string, id string) ([]byte, error)
+	UpdateCategory(reqId string, id string, name string) ([]byte, error)
+	AllCategories(reqId string) ([]byte, error)
+	GoodsOnCateory(reqId string, category string) ([]byte, error)
+	CreateGoods(reqId string, name string) ([]byte, error)
+	DeleteGoods(reqId string, id int) ([]byte, error)
+	UpdateGoods(reqId string, id int, name string) ([]byte, error)
 	Close() error
 }
