@@ -25,7 +25,14 @@ func main() {
 	s := goods.New(log, db)
 	h := handlers.New(log, s)
 
-	http.HandleFunc("/", h.CreateCategory)
+	http.HandleFunc("/category/create", h.CreateCategory)
+	http.HandleFunc("/category/delete", h.DeleteCategory)
+	http.HandleFunc("/category/update", h.UpdateCategory)
+	http.HandleFunc("/goods/create", h.CreateGoods)
+	http.HandleFunc("/goods/delete", h.DeleteGoods)
+	http.HandleFunc("/goods/update", h.UpdateGoods)
+	http.HandleFunc("/allcategories", h.AllCategories)
+	http.HandleFunc("/goodsoncategory", h.GoodsOnCateory)
 
 	http.ListenAndServe(":8080", nil)
 

@@ -3,8 +3,8 @@ package handlers
 import "net/http"
 
 func (h *marketHandlers) AllCategories(w http.ResponseWriter, r *http.Request) {
-	reqID := r.Context().Value("reqID").(string)
-	if reqID == "" {
+	reqID, ok := r.Context().Value("reqID").(string)
+	if !ok {
 		reqID = ""
 	}
 

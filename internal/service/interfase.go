@@ -7,7 +7,7 @@ type MarketService interface {
 	AllCategories(reqId string) ([]byte, error)
 	GoodsOnCateory(reqId string, category string) ([]byte, error)
 	CreateGoods(reqId string, name string) ([]byte, error)
-	DeleteGoods(reqId string, id int) ([]byte, error)
-	UpdateGoods(reqId string, id int, name string) ([]byte, error)
+	DeleteGoods(reqId string, id string) ([]byte, error)
+	UpdateGoods(reqId string, id string, name string) ([]byte, error)
 	Close() error
 }

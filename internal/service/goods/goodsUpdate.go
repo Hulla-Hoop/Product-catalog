@@ -1,9 +1,18 @@
 package goods
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"strconv"
+)
 
-func (s *service) UpdateGoods(reqId string, id int, name string) ([]byte, error) {
-	category, err := s.db.UpdateGoods(reqId, id, name)
+func (s *service) UpdateGoods(reqId string, id string, name string) ([]byte, error) {
+
+	ids, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+
+	category, err := s.db.UpdateGoods(reqId, ids, name)
 	if err != nil {
 		s.logger.L.WithField("SERVICE.CreateCategory", reqId).Error(err)
 		return nil, err

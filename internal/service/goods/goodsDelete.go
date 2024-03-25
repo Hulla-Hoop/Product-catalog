@@ -1,9 +1,17 @@
 package goods
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"strconv"
+)
 
-func (s *service) DeleteGoods(reqId string, id int) ([]byte, error) {
-	category, err := s.db.DeleteGoods(reqId, id)
+func (s *service) DeleteGoods(reqId string, id string) ([]byte, error) {
+	ids, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+
+	category, err := s.db.DeleteGoods(reqId, ids)
 	if err != nil {
 		s.logger.L.WithField("SERVICE.CreateCategory", reqId).Error(err)
 		return nil, err
