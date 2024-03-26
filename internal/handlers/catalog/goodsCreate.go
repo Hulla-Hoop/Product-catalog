@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// example /goods/create?name=Fresh
+
 func (h *marketHandlers) CreateGoods(w http.ResponseWriter, r *http.Request) {
 	reqID, ok := r.Context().Value("reqID").(string)
 	if !ok {

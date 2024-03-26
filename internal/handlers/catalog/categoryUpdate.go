@@ -2,6 +2,8 @@ package handlers
 
 import "net/http"
 
+// example /category/update?id=3&name=Fresh
+
 func (h *marketHandlers) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	reqID, ok := r.Context().Value("reqID").(string)
 	if !ok {

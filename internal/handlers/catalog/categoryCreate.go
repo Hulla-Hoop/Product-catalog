@@ -2,20 +2,20 @@ package handlers
 
 import "net/http"
 
-func (h *marketHandlers) GoodsOnCateory(w http.ResponseWriter, r *http.Request) {
+// example /category/create?name=Fresh
+
+func (h *marketHandlers) CreateCategory(w http.ResponseWriter, r *http.Request) {
 	reqID, ok := r.Context().Value("reqID").(string)
 	if !ok {
 		reqID = ""
 	}
 
-	categor := r.URL.Query().Get("name")
+	name := r.URL.Query().Get("name")
 
-	category, err := h.service.GoodsOnCateory(reqID, categor)
-
+	category, err := h.service.CreateCategory(reqID, name)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
-
 	w.Write(category)
 	w.WriteHeader(http.StatusOK)
 }

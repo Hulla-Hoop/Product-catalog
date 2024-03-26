@@ -6,7 +6,7 @@ import (
 	"testinhousead/internal/DB/psql"
 	handlers "testinhousead/internal/handlers/goods"
 	"testinhousead/internal/logger"
-	"testinhousead/internal/service/goods"
+	service "testinhousead/internal/service/goods"
 
 	"github.com/joho/godotenv"
 )
@@ -22,7 +22,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	s := goods.New(log, db)
+	s := service.New(log, db)
 	h := handlers.New(log, s)
 
 	http.HandleFunc("/category/create", h.CreateCategory)

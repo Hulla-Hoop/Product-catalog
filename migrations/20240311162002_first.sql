@@ -6,7 +6,7 @@ INCREMENT BY 1;
 
 CREATE TABLE categories (
     id int DEFAULT nextval('categories_seq'::regclass) NOT NULL,
-    name text NOT NULL,
+    name text NOT NULL UNIQUE,
     removed bool DEFAULT false,
     updated_at timestamp with time zone DEFAULT NOW() NOT NULL,
     created_at timestamp with time zone DEFAULT NOW() NOT NULL,
@@ -19,7 +19,7 @@ INCREMENT BY 1;
 
 CREATE TABLE goods (
     id int DEFAULT nextval('goods_seq'::regclass) NOT NULL,
-    name text NOT NULL,
+    name text NOT NULL UNIQUE,
     removed bool DEFAULT false,
     updated_at timestamp with time zone DEFAULT NOW() NOT NULL,
     created_at timestamp with time zone DEFAULT NOW() NOT NULL,

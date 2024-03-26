@@ -7,10 +7,10 @@ import (
 
 type marketHandlers struct {
 	logger  *logger.Logger
-	service service.MarketService
+	service service.Cataloger
 }
 
-func New(log *logger.Logger, service service.MarketService) *marketHandlers {
+func NewCatalog(log *logger.Logger, service service.Cataloger) *marketHandlers {
 	return &marketHandlers{
 		logger:  log,
 		service: service,

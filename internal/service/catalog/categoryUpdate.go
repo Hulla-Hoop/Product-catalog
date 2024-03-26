@@ -1,11 +1,11 @@
-package goods
+package catalog
 
 import (
 	"encoding/json"
 	"strconv"
 )
 
-func (s *service) UpdateCategory(reqId string, id string, name string) ([]byte, error) {
+func (s catalog) UpdateCategory(reqId string, id string, name string) ([]byte, error) {
 	idI, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, err
@@ -16,7 +16,7 @@ func (s *service) UpdateCategory(reqId string, id string, name string) ([]byte, 
 		s.logger.L.WithField("SERVICE.CreateCategory", reqId).Error(err)
 		return nil, err
 	}
-	s.logger.L.WithField("SERVICE.CreateCategory", reqId).Debug("Query row in service layer - ", category)
+	s.logger.L.WithField("SERVICE.CreateCategory", reqId).Debug("Query row in catalog layer - ", category)
 	SL, err := json.Marshal(category)
 	if err != nil {
 		s.logger.L.WithField("SERVICE.CreateCategory", reqId).Error(err)

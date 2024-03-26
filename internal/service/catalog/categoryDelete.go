@@ -1,11 +1,11 @@
-package goods
+package catalog
 
 import (
 	"encoding/json"
 	"strconv"
 )
 
-func (s *service) DeleteCategory(reqId string, id string) ([]byte, error) {
+func (s *catalog) DeleteCategory(reqId string, id string) ([]byte, error) {
 
 	ids, err := strconv.Atoi(id)
 	if err != nil {
@@ -19,7 +19,7 @@ func (s *service) DeleteCategory(reqId string, id string) ([]byte, error) {
 		return nil, err
 	}
 
-	s.logger.L.WithField("SERVICE.DeleteCategory", reqId).Debug("Query row in service layer - ", category)
+	s.logger.L.WithField("SERVICE.DeleteCategory", reqId).Debug("Query row in catalog layer - ", category)
 	SL, err := json.Marshal(category)
 	if err != nil {
 		s.logger.L.WithField("SERVICE.DeleteCategory", reqId).Error(err)

@@ -1,6 +1,6 @@
 package service
 
-type MarketService interface {
+type Cataloger interface {
 	CreateCategory(reqId string, name string) ([]byte, error)
 	DeleteCategory(reqId string, id string) ([]byte, error)
 	UpdateCategory(reqId string, id string, name string) ([]byte, error)
