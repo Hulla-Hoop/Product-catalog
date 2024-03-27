@@ -13,3 +13,10 @@ type DB interface {
 	UpdateGoods(reqId string, id int, name string) (*model.Goods, error)
 	Close() error
 }
+
+type DBAut interface {
+	DeleteSess(reqId string, token string) error
+	DeleteOld()
+	CreateSess(reqId string, session *model.Session) error
+	ChekSess(reqId string, token string) (*model.Session, error)
+}
