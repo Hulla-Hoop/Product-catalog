@@ -11,6 +11,7 @@ type DB interface {
 	CreateGoods(reqId string, name string) (*model.Goods, error)
 	DeleteGoods(reqId string, id int) (*model.Goods, error)
 	UpdateGoods(reqId string, id int, name string) (*model.Goods, error)
+	CreateRelation(reqId string, goods_id int, category_id int) (*model.Product, error)
 	Close() error
 }
 

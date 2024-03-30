@@ -17,5 +17,4 @@ func (h *marketHandlers) CreateCategory(w http.ResponseWriter, r *http.Request) 
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	w.Write(category)
-	w.WriteHeader(http.StatusOK)
 }

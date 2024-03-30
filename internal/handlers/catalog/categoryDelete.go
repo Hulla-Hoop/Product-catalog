@@ -19,5 +19,5 @@ func (h *marketHandlers) DeleteCategory(w http.ResponseWriter, r *http.Request) 
 	}
 
 	w.Write(category)
-	w.WriteHeader(http.StatusOK)
+
 }

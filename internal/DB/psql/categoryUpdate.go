@@ -12,16 +12,17 @@ func (db *psql) UpdateCategory(reqId string, id int, name string) (*model.Catego
 	str := fmt.Sprintf(`
 	BEGIN;
 
-	SELECT * FROM categories WHERE id = %d FOR UPDATE;
 
 	UPDATE categories 
-	SET removed = true,updated_at=%s,name=%s
+	SET updated_at='%s',name='%s'
 	WHERE id=%d
 	returning id,name,removed,updated_at,created_at;
 
+	SELECT * FROM categories WHERE id = %d;
+
 	COMMIT;
 	
-	`, id, now, name, id)
+	`, now, name, id, id)
 
 	db.logger.L.WithField("psql.UpdateCategories", reqId).Debug(" запрос ---", str)
 

@@ -12,16 +12,16 @@ func (db *psql) DeleteCategory(reqId string, id int) (*model.Category, error) {
 	str := fmt.Sprintf(`
 	BEGIN;
 
-	SELECT * FROM categories WHERE id = %d FOR UPDATE;
-
 	UPDATE categories
-	SET removed = true,updated_at=%s
+	SET removed = true,updated_at='%s'
 	WHERE id=%d
 	returning id,name,removed,updated_at,created_at;
 
+	SELECT * FROM categories WHERE id = %d FOR UPDATE;
+
 	COMMIT;
 	
-	`, id, now, id)
+	`, now, id, id)
 
 	db.logger.L.WithField("psql.DeleteCategory", reqId).Debug(" Строка запроса ---", str)
 

@@ -17,16 +17,17 @@ func (db *psql) UpdateGoods(reqId string, id int, name string) (*model.Goods, er
 	str := fmt.Sprintf(`
 	BEGIN;
 
-	SELECT * FROM goods WHERE id = %d FOR UPDATE;
 
 	UPDATE goods 
-	SET removed = true,updated_at=%s,name=%s
+	SET updated_at='%s',name='%s'
 	WHERE id=%d
 	returning id,name,removed,updated_at,created_at;
 
+	SELECT * FROM goods WHERE id = %d ;
+
 	COMMIT;
 	
-	`, id, now, name, id)
+	`, now, name, id, id)
 
 	db.logger.L.WithField("psql.UpdateGOODS", reqId).Debug(" запрос ---", str)
 
