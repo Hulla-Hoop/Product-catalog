@@ -12,7 +12,7 @@ func (db *psql) AllCategories(reqID string) ([]model.Category, error) {
 	row, err := db.dB.Query(str)
 
 	if err != nil {
-		db.logger.L.WithField("psql.UpdateCategories", reqID).Error("", err)
+		db.logger.L.WithField("psql.AllCategories", reqID).Error("", err)
 		return nil, err
 	}
 
@@ -22,11 +22,13 @@ func (db *psql) AllCategories(reqID string) ([]model.Category, error) {
 
 		err := row.Scan(&category.ID, &category.Name, &category.Removed, &category.Updated_at, &category.Created_at)
 		if err != nil {
-			db.logger.L.WithField("psql.Meta", reqID).Error(err)
+			db.logger.L.WithField("psql.AllCategories", reqID).Error(err)
 			continue
 		}
 		categories = append(categories, category)
 	}
+
+	db.logger.L.WithField("psql.AllCategories", reqID).Debug("выходные данные ---- ", categories)
 
 	return categories, nil
 }

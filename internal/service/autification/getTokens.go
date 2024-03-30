@@ -67,7 +67,6 @@ func (s *jWT) createAccessToken(reqID string, accessTTL string, secret string, g
 		Name:    "token",
 		Value:   jwt,
 		Expires: expirationTime,
-		Domain:  "category/",
 	}
 	return acces, nil
 }

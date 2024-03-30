@@ -7,8 +7,13 @@ import (
 )
 
 func (db *psql) UpdateGoods(reqId string, id int, name string) (*model.Goods, error) {
+
+	db.logger.L.WithField("psql.UpdateGOODS", reqId).Debug(" выходные данные ----", id, name)
+
 	var goods model.Goods
-	now := time.Now()
+
+	now := time.Now().Format(time.DateTime)
+
 	str := fmt.Sprintf(`
 	BEGIN;
 
@@ -23,7 +28,7 @@ func (db *psql) UpdateGoods(reqId string, id int, name string) (*model.Goods, er
 	
 	`, id, now, name, id)
 
-	db.logger.L.WithField("psql.UpdateGOODS", reqId).Debug(" выходные данные ---", str)
+	db.logger.L.WithField("psql.UpdateGOODS", reqId).Debug(" запрос ---", str)
 
 	err := db.dB.QueryRow(str).Scan(&goods.ID, &goods.Name, &goods.Removed, &goods.Created_at, &goods.Updated_at)
 

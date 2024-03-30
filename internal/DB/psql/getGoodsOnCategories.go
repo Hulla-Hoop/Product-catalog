@@ -1,7 +1,6 @@
 package psql
 
 import (
-	"database/sql"
 	"fmt"
 	"testinhousead/internal/model"
 )
@@ -18,12 +17,12 @@ func (db *psql) GoodsOnCateory(reqID string, category string) ([]model.Product, 
 	WHERE categories.name='%s' AND categories.removed=false AND goods.removed=false;
 	`, category)
 
-	db.logger.L.WithField("psql.UpdateCategories", reqID).Debug("Query ---- ", str)
+	db.logger.L.WithField("psql.GoodsOnCateory", reqID).Debug("Query ---- ", str)
 
 	row, err := db.dB.Query(str)
 
 	if err != nil {
-		db.logger.L.WithField("psql.UpdateCategories", reqID).Error("", err)
+		db.logger.L.WithField("psql.GoodsOnCateory", reqID).Error("", err)
 		return nil, err
 	}
 
@@ -33,16 +32,13 @@ func (db *psql) GoodsOnCateory(reqID string, category string) ([]model.Product, 
 
 		err := row.Scan(&product.Name, &product.Category)
 		if err != nil {
-			if err == sql.ErrNoRows {
-				db.logger.L.WithField("psql.Meta", reqID).Error(err)
-				continue
-			} else {
-				db.logger.L.WithField("psql.Meta", reqID).Error(err)
-				return nil, err
-			}
+			db.logger.L.WithField("psql.GoodsOnCateory", reqID).Error(err)
+			continue
 		}
 		goods = append(goods, product)
 	}
+
+	db.logger.L.WithField("psql.GoodsOnCateory", reqID).Debug("Выходные данные --- ", goods)
 
 	return goods, nil
 

@@ -8,31 +8,32 @@ import (
 
 func (db *psql) DeleteGoods(reqId string, id int) (*model.Goods, error) {
 	var goods model.Goods
-	now := time.Now()
+	now := time.Now().Format(time.DateTime)
+
 	str := fmt.Sprintf(`
 	BEGIN;
 
-	SELECT * FROM goods WHERE id = %d FOR UPDATE;
 
 	UPDATE goods 
-	SET removed = true,updated_at=%s
+	SET updated_at='%s',removed = true
 	WHERE id=%d
 	returning id,name,removed,updated_at,created_at;
-
+	SELECT * FROM goods WHERE id = %d ;
 	COMMIT;
+	 
 	
-	`, id, now, id)
+	`, now, id, id)
 
-	db.logger.L.WithField("psql.DeleteGOODS", reqId).Debug(" выходные данные ---", str)
+	db.logger.L.WithField("psql.DeleteGOODS", reqId).Debug(" запрос --- ", str)
 
-	err := db.dB.QueryRow(str).Scan(&goods.ID, &goods.Name, &goods.Removed, &goods.Created_at, &goods.Updated_at)
+	err := db.dB.QueryRow(str).Scan(&goods.ID, &goods.Name, &goods.Removed, &goods.Updated_at, &goods.Created_at)
 
 	if err != nil {
 		db.logger.L.WithField("psql.DeleteGOODS", reqId).Error("", err)
 		return nil, err
 	}
 
-	db.logger.L.WithField("psql.DeleteGOODS", reqId).Debug(" выходные данные ----", goods)
+	db.logger.L.WithField("psql.DeleteGOODS", reqId).Debug(" выходные данные ---- ", goods)
 	return &goods, nil
 
 }

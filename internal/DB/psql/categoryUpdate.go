@@ -8,7 +8,7 @@ import (
 
 func (db *psql) UpdateCategory(reqId string, id int, name string) (*model.Category, error) {
 	var category model.Category
-	now := time.Now()
+	now := time.Now().Format(time.DateTime)
 	str := fmt.Sprintf(`
 	BEGIN;
 
@@ -23,7 +23,7 @@ func (db *psql) UpdateCategory(reqId string, id int, name string) (*model.Catego
 	
 	`, id, now, name, id)
 
-	db.logger.L.WithField("psql.UpdateCategories", reqId).Debug(" выходные данные ---", str)
+	db.logger.L.WithField("psql.UpdateCategories", reqId).Debug(" запрос ---", str)
 
 	err := db.dB.QueryRow(str).Scan(&category.ID, &category.Name, &category.Removed, &category.Created_at, &category.Updated_at)
 

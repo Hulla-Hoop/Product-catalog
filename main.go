@@ -1,24 +1,39 @@
 package main
 
 import (
-	"testinhousead/internal/logger"
-	"testinhousead/pkg/app"
-
-	"github.com/joho/godotenv"
+	"encoding/json"
+	"fmt"
+	"os"
 )
 
-func main() {
+func foo() error {
+	var err *os.PathError = nil
+	return err
+}
 
-	log := logger.New()
-	err := godotenv.Load()
-	if err != nil {
-		log.L.Info("Не загружается .env файл")
-	}
-	a, err := app.NewApp()
+const (
+	a = iota + 1
+	_
+	b
+	c
+)
+
+func change(a *int) {
+	t := *a * 2
+	a = &t
+}
+
+type model struct {
+	Name string `json:"test"`
+	Age  int    `json:"age"`
+}
+
+func main() {
+	data := `{"name":"Alex","age":30}`
+	var model model
+	err := json.Unmarshal([]byte(data), &model)
 	if err != nil {
 		panic(err)
 	}
-
-	a.Start()
-
+	fmt.Println(model)
 }

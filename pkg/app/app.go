@@ -52,9 +52,9 @@ func NewApp() (*app, error) {
 	mux.HandleFunc("/category/create", middlware.ReqID(middlware.Aut(first.hand.CreateCategory)))
 	mux.HandleFunc("/category/delete", middlware.ReqID(middlware.Aut(first.hand.DeleteCategory)))
 	mux.HandleFunc("/category/update", middlware.ReqID(middlware.Aut(first.hand.UpdateCategory)))
-	mux.HandleFunc("/goods/create", middlware.ReqID(middlware.Aut(first.hand.CreateCategory)))
-	mux.HandleFunc("/goods/delete", middlware.ReqID(middlware.Aut(first.hand.DeleteCategory)))
-	mux.HandleFunc("/goods/update", middlware.ReqID(middlware.Aut(first.hand.UpdateCategory)))
+	mux.HandleFunc("/goods/create", middlware.ReqID(middlware.Aut(first.hand.CreateGoods)))
+	mux.HandleFunc("/goods/delete", middlware.ReqID(middlware.Aut(first.hand.DeleteGoods)))
+	mux.HandleFunc("/goods/update", middlware.ReqID(middlware.Aut(first.hand.UpdateGoods)))
 
 	mux.HandleFunc("/signin", middlware.ReqID(second.hand.SignIn))
 	mux.HandleFunc("/refresh", middlware.ReqID(second.hand.Refresh))
