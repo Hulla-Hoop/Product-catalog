@@ -2,6 +2,7 @@ package db
 
 import "testinhousead/internal/model"
 
+// интерфейс каталога товаров на уровне бд
 type DB interface {
 	CreateCategory(reqId string, name string) (*model.Category, error)
 	DeleteCategory(reqId string, id int) (*model.Category, error)
@@ -15,6 +16,7 @@ type DB interface {
 	Close() error
 }
 
+// интерфейс авторизации
 type DBAut interface {
 	DeleteSess(reqId string, token string) error
 	DeleteOld()

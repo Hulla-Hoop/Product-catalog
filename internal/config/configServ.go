@@ -7,6 +7,7 @@ type configServ struct {
 	Port string
 }
 
+// Возвращает конфигурацию для Servera
 func ServNew() *configServ {
 
 	return &configServ{

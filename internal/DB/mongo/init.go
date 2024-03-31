@@ -14,6 +14,7 @@ type Mongo struct {
 	logger     *logger.Logger
 }
 
+// подключается к манго и возвращает соединение с созданной колекцией
 func New(log *logger.Logger) *Mongo {
 	cfg := config.MongoNew()
 	ctx := context.TODO()
@@ -27,6 +28,7 @@ func New(log *logger.Logger) *Mongo {
 	if err != nil {
 		log.L.Info("Mongo не доступна по протоколу IP")
 	}
+	// создаем колекцию указанную в .env
 	collection := client.Database(cfg.DBName).Collection(cfg.DBName)
 
 	log.L.Info("Mongo поднялось")

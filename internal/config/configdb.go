@@ -13,6 +13,7 @@ type configDb struct {
 	SSLMode  string
 }
 
+// Возвращает конфигурацию для подключения к Postres
 func DbNew() *configDb {
 
 	return &configDb{

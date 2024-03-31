@@ -12,6 +12,7 @@ type configMongo struct {
 	DBName   string
 }
 
+// Возвращает конфигурацию для подключения к Mongo
 func MongoNew() *configMongo {
 
 	return &configMongo{
