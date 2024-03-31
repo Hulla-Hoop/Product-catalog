@@ -10,4 +10,4 @@
 
 В проекте была применена `чистая архитектура` скрин ниже демонстрирует то как были поделены слои.
 
-![alt text](https://github.com)
+![alt text]([https://githucomb.](https://github.com/Hulla-Hoop/Product-catalog/tree/main/images/clean.png?raw=true)
