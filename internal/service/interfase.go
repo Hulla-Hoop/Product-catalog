@@ -22,3 +22,7 @@ type Autificationer interface {
 	RefreshToken(reqID string, token string) (bool, string)
 	ChekSess(reqId string, token string) (*model.Session, error)
 }
+
+type Parser interface {
+	CreateGoods(reqId string, name string, category string) ([]byte, error)
+}

@@ -20,4 +20,6 @@ func main() {
 	}
 
 	a.Start()
+
+	/* parser.Parse() */
 }
