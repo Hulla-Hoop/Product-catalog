@@ -210,5 +210,72 @@ type Session struct {
 }
 
 ```
+### Middleware
+Обертки над ручками для добавления дополнительной логики в данном случае авторизация и реквест айди
+#### Aut 
+Проверяет есть ли у пользователя токен и соответствует ли он необходимым условиям
+``` 
+func Aut(next http.HandlerFunc) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		reqID, ok := r.Context().Value("reqID").(string)
+		if !ok {
+			reqID = ""
+		}
 
-##  
+		c, err := r.Cookie("token")
+		if err != nil {
+			if err == http.ErrNoCookie {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		tknStr := c.Value
+
+		claims := &model.Claims{}
+
+		cfg := config.TokenCFG()
+
+		tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (any, error) {
+			return []byte(cfg.SecretKey), nil
+		})
+
+		if err != nil {
+			if err == jwt.ErrSignatureInvalid {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		if !tkn.Valid {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		ctx := context.WithValue(r.Context(), "reqID", reqID)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
+
+	})
+}
+```
+
+
+
+## Ручки и логика их работы
+
+### /allcategories/
+
+
+
+### /goodsoncategory
+### /category/create
+### /category/delete
+### /category/update
+### /goods/create
+### /goods/delete
+### /goods/update
+### /signin
+### /refresh

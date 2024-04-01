@@ -2,7 +2,6 @@ package middlware
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"testinhousead/internal/config"
 	"testinhousead/internal/model"
@@ -20,7 +19,6 @@ func Aut(next http.HandlerFunc) http.HandlerFunc {
 		c, err := r.Cookie("token")
 		if err != nil {
 			if err == http.ErrNoCookie {
-				fmt.Println("----------", err)
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
@@ -39,7 +37,6 @@ func Aut(next http.HandlerFunc) http.HandlerFunc {
 
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
-				fmt.Println("----------", err)
 				w.WriteHeader(http.StatusUnauthorized)
 				return
 			}
@@ -48,7 +45,6 @@ func Aut(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		if !tkn.Valid {
-			fmt.Println("----------", err)
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
