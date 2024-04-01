@@ -108,6 +108,15 @@ type DB interface {
 - БД создается по средством миграций *migrations/*
 - Также миграции добавляют несколько записей при вызове для удобства тестирования
 
+|Name|Category|
+|:-:|:-:|
+|Spagetti|For boil|
+|Spagetti|Flour products|
+|Apple|Fruits|
+|Apple|Fresh|
+|Apple Pie|Bakery products|
+|Apple Pie|Fruits|
+
 `Схема БД`
 
 ![Схема Базы данных](/images/CatalogDB.png)
@@ -187,3 +196,19 @@ type DBAut interface {
 
 Имплементация интерфейса лежит в *internal/DB/mongo* 
 
+#### Структура БД 
+
+- В качестве БД для хранения сессий используется mongo
+- Документы в mongo соответствуют структуре Session
+
+```
+type Session struct {
+	BcryptTocken      string `bson:"bcryptTocken"`
+	TimeCreatedTocken string `bson:"timeCreatedTocken"`
+	Guid              string `bson:"guid"`
+	ExpireTime        int64  `bson:"expiretime"`
+}
+
+```
+
+##  
