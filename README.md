@@ -10,7 +10,7 @@
 
 В проекте была применена `чистая архитектура`.
 
-(https://github.com/Hulla-Hoop/Product-catalog/tree/main/images/clean.png&row=false)
+![](https://github.com/Hulla-Hoop/Product-catalog/tree/main/images/clean.png&row=false)
 
 ### Сервис Каталог 
  Отвечает за все взаимодействия с товарами и категориями
