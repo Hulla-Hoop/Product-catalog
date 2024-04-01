@@ -17,6 +17,7 @@ import (
 type first struct {
 	hand handlers.Catalog
 }
+
 type second struct {
 	hand handlers.Aut
 }
