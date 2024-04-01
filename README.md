@@ -6,7 +6,7 @@
 Также аутифицированные пользователи могут добавлять,удалять,обновлять товары и категории.
 
 
-## Архитектура и Паттерны
+## Архитектура
 
 В проекте была применена `чистая архитектура`.
 
@@ -57,7 +57,7 @@ type Catalog interface {
 	UpdateGoods(w http.ResponseWriter, r *http.Request)
 }
 ```
-Имплементация интерфейса лежит в *handlers/catalog*
+Имплементация интерфейса лежит в *internal/handlers/catalog*
 
 #### Service Слой 
 В этом слое содержится вся бизнес логика.
@@ -78,7 +78,7 @@ type Cataloger interface {
 	Close() error
 }
 ```
-Имплементация интерфейса лежит в *service/catalog*
+Имплементация интерфейса лежит в *internal/service/catalog*
 
 #### DB Слой 
 Отвечает за взаимодействие с базой данных 
@@ -99,5 +99,89 @@ type DB interface {
 }
 ```
 
-Имплементация интерфейса лежит в *DB/psql* 
+Имплементация интерфейса лежит в *internal/DB/psql* 
+
+#### Структура БД 
+
+В качестве БД выбрана PostgreSQL 
+БД соответствует 4 нормальной форме
+БД создается по средством миграций *migrations/*
+Также миграции добавляют несколько записей при применении для удобства тестирования
+`Схема БД`
+![Схема Базы данных](/images/CatalogDB.png)
+
+### Сервис Аутификации
+
+Отвечает за аутификацию пользователей и хранение сессий пользователей
+
+Пользователи доступные для аутификации лежат в *internal/model/modelAut*
+```
+ var Users = map[string]string{
+	"3825c945-8843-4b7d-995e-30b16c173c65": "user1",
+	"019ed7ca-8286-40b8-ac80-1950c92dccfd": "user2",
+}
+```
+
+собирается в pkg/app
+
+```
+...
+type second struct {
+	hand handlers.Aut
+}
+
+func NewApp() (*app, error) {
+...
+	//обьявляем второй сервис и подключаем зависимости
+	second := second{}
+	mongo := mongo.New(l)
+	se := autification.NewAut(l, mongo)
+	second.hand = aut.NewAut(l, se)
+ ...
+}
+
+...
+```
+
+#### Handlers Слой 
+Взаимодействует с клиентом(http) получает данные и передает их на сервисный слой по интерфейсу 
+
+Интерфейс Handlers слоя
+```
+type Aut interface {
+	SignIn(w http.ResponseWriter, r *http.Request)
+	Refresh(w http.ResponseWriter, r *http.Request)
+}
+```
+Имплементация интерфейса лежит в *internal/handlers/autification*
+
+#### Service Слой 
+В этом слое содержится бизнес-логика(проверка наличия пользователей расшифровка токенов и тд).
+
+Получает данные от Handlers Слоя преобразует их в нужный формат проверяет на корректность и передает в слой бд.
+
+Интерфейс Service слоя 
+``` 
+type Autificationer interface {
+	GetTokens(reqId string, guid string) (*http.Cookie, *http.Cookie, error)
+	RefreshToken(reqID string, token string) (bool, string)
+	ChekSess(reqId string, token string) (*model.Session, error)
+}
+```
+Имплементация интерфейса лежит в *internal/service/autification*
+
+#### DB Слой 
+Отвечает за взаимодействие с базой данных (mongo)
+
+Интерфейс DB слоя 
+```
+type DBAut interface {
+	DeleteSess(reqId string, token string) error
+	DeleteOld()
+	CreateSess(reqId string, session *model.Session) error
+	ChekSess(reqId string, token string) (*model.Session, error)
+}
+```
+
+Имплементация интерфейса лежит в *internal/DB/mongo* 
 

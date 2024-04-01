@@ -48,6 +48,9 @@ func NewApp() (*app, error) {
 	se := autification.NewAut(l, mongo)
 	second.hand = aut.NewAut(l, se)
 
+	// удаляет устаревшие сессии
+	go se.ClearSession()
+
 	// создаем mux
 	mux := http.NewServeMux()
 
@@ -75,6 +78,7 @@ func NewApp() (*app, error) {
 
 // функция запуска приложения
 func (a *app) Start() {
+
 	conf := config.ServNew()
 
 	err := http.ListenAndServe(conf.Host+":"+conf.Port, a.mux)
