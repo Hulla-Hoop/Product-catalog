@@ -8,6 +8,6 @@
 
 ## Архитектура и Паттерны
 
-В проекте была применена `чистая архитектура` скрин ниже демонстрирует то как были поделены слои.
+В проекте была применена `чистая архитектура`.
 
-![alt text](https://github.com/Hulla-Hoop/Product-catalog/tree/main/images/clean.png)
+![Чистая архитектура](https://github.com/Hulla-Hoop/Product-catalog/tree/main/images/clean.png)
