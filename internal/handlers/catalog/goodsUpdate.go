@@ -11,7 +11,15 @@ func (h *marketHandlers) UpdateGoods(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "пустой параметр id", http.StatusBadRequest)
+		return
+	}
 	name := r.URL.Query().Get("name")
+	if name == "" {
+		http.Error(w, "пустой параметр name", http.StatusBadRequest)
+		return
+	}
 	category, err := h.service.UpdateGoods(reqID, id, name)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

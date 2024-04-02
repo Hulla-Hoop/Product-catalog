@@ -11,10 +11,14 @@ func (h *marketHandlers) CreateCategory(w http.ResponseWriter, r *http.Request) 
 	}
 
 	name := r.URL.Query().Get("name")
+	if name == "" {
+		http.Error(w, "пустой параметр name", http.StatusBadRequest)
+		return
+	}
 
 	category, err := h.service.CreateCategory(reqID, name)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Write(category)
 }

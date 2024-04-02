@@ -1,0 +1,361 @@
+openapi: 3.0.3
+info:
+  version: v1
+  title: Catalog Api 
+  description: |-
+    Представляет собой простой каталог товаров с возможность получения всех категорий и получения товаров по отдельным категориям. Также аутифицированные пользователи могут добавлять,удалять,обновлять товары и категории.
+  contact:
+    email: shomaaaaaa76@gmail.com
+paths:
+  /allcategories:
+    post:
+      tags:
+        - allcategories
+      summary: Возвращает все доступнные категории
+      description: Возвращает все доступнные категории
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/categories'          
+        '500':
+          description: Выводит ошибку
+  /goodsoncategory:
+    post:
+      tags:
+        - goodsoncategory
+      summary: Возращает товары
+      description: Возвращает товары по указанной категории
+      parameters:
+        - name: name
+          in: query
+          description: название категории
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/products'
+        '400':
+          description: Пустой параметр name
+        '500':
+          description: Выводит ошибку
+  /category/create:
+    post:
+      tags: 
+      - category
+      summary: Создает категорию
+      description: Возращает созданую категорию
+      parameters:
+        - name: name
+          in: query
+          description: название категории
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Пустой запрос
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+  /category/delete:
+    post:
+      tags: 
+      - category
+      summary: удаляет категорию
+      description: Возращает удаленную категорию
+      parameters:
+        - name: id
+          in: query
+          description: id категории
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+  /category/update:
+    post:
+      tags: 
+      - category
+      summary: обновляет категорию
+      description: Возращает обновленную категорию
+      parameters:
+        - name: name
+          in: query
+          description: новое название категории
+          required: true
+          schema:
+            type: string
+            default:
+        - name: id
+          in: query
+          description: id категории
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description:  Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+  /goods/create:
+    post:
+      tags: 
+      - goods
+      summary: Создает категорию
+      description: Возращает созданую категорию
+      parameters:
+        - name: name
+          in: query
+          description: название товара
+          required: true
+          schema:
+            type: string
+            default:
+        - name: category
+          in: query
+          description: название категории
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Пустой запрос
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+  /goods/delete:
+    post:
+      tags: 
+      - goods
+      summary: удаляет товар
+      description: Возращает удаленный товар
+      parameters:
+        - name: id
+          in: query
+          description: id товара
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+        '400':
+          description: Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+  /goods/update:
+    post:
+      tags: 
+      - goods
+      summary: обновляет товар
+      description: Возращает обновленный товар
+      parameters:
+        - name: name
+          in: query
+          description: новое название товара
+          required: true
+          schema:
+            type: string
+            default:
+        - name: id
+          in: query
+          description: id товара
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+        '400':
+          description:  Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+  /signin:
+    post:
+      tags: 
+      - auth
+      summary: аутификация
+      description: аутифицирует пользователя и устанавливает jwt и refresh токен в cookie
+      parameters:
+        - name: guid
+          in: query
+          description: индификатор пользователя
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: OK
+          headers:
+            Set-Cookie:
+              description: >
+                  Содержит сессионный файл cookie с именем token и refresh. Передавайте этот файл cookie обратно в последующих запросах.
+              schema: 
+                type: string
+  /refresh:
+    post:
+      tags: 
+      - auth
+      summary: аутификация
+      description: обновляет jwt и refresh токен в cookie удаляя старую сессию необходимо иметь refresh токен для роаботы ручки
+      responses:
+        '200':
+          description: OK
+          headers:
+            Set-Cookie:
+              description: >
+                  Содержит сессионный файл cookie с именем token и refresh. Передавайте этот файл cookie обратно в последующих запросах.
+              schema: 
+                type: string
+  
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          description: название категории
+          example: Fresh
+        removed:
+          type: boolean
+          description: показывает удалена запись или нет
+          example: false
+        updated_at:
+          type: string
+          description: дата последнего обновления
+          format: date-time
+          example: 2024-04-01 14:33:29.410425+00
+        created_at:
+          type: string
+          description: дата создания
+          format: date-time
+          example: 2024-04-01 14:33:29.410425+00
+    Goods:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 3
+        name:
+          type: string
+          description: название товара
+          example: Apple
+        removed:
+          type: boolean
+          description: показывает удалена запись или нет
+          example: false
+        updated_at:
+          type: string
+          description: дата последнего обновления
+          format: date-time
+          example: 2024-04-01 14:33:29.410425+00
+        created_at:
+          type: string
+          description: дата создания
+          format: date-time
+          example: 2024-04-01 14:33:29.410425+00
+    categories:
+      type: array
+      items:
+        $ref: '#/components/schemas/Category'
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          description: название товара
+          example: Apple
+        category:
+          type: string
+          description: название категории
+          example: Fresh
+    products:
+      type: array
+      items: 
+       $ref: '#/components/schemas/Product'
+  securitySchemes:
+    JwtCookieAuth:
+      description: jwt autification use sha512
+      type: apiKey
+      in: cookie
+      name: token
+

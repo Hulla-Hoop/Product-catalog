@@ -11,6 +11,10 @@ func (h *marketHandlers) DeleteCategory(w http.ResponseWriter, r *http.Request) 
 	}
 
 	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "пустой параметр id", http.StatusBadRequest)
+		return
+	}
 
 	category, err := h.service.DeleteCategory(reqID, id)
 

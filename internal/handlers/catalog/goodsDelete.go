@@ -11,10 +11,13 @@ func (h *marketHandlers) DeleteGoods(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id := r.URL.Query().Get("id")
+	if id == "" {
+		http.Error(w, "пустой параметр id", http.StatusBadRequest)
+		return
+	}
 	category, err := h.service.DeleteGoods(reqID, id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	w.Write(category)
-	w.WriteHeader(http.StatusOK)
 }

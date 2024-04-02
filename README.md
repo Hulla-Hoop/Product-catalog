@@ -289,19 +289,316 @@ func ReqID(next http.HandlerFunc) http.HandlerFunc {
 
 
 
-## Ручки и логика их работы
+## Endpoints
+
+**Спецификация swagger** 
 
 ### /allcategories/
-
-Синтаксис: /allcategories/
-
+возвращат все не удаленные категории
+```
+ /allcategories:
+    post:
+      tags:
+        - allcategories
+      summary: Возвращает все доступнные категории
+      description: Возвращает все доступнные категории
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/categories'          
+        '500':
+          description: Выводит ошибку
+```
 
 ### /goodsoncategory
+```  
+/goodsoncategory:
+    post:
+      tags:
+        - goodsoncategory
+      summary: Возращает товары
+      description: Возвращает товары по указанной категории
+      parameters:
+        - name: name
+          in: query
+          description: название категории
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/products'
+        '400':
+          description: Пустой запрос
+        '500':
+          description: Выводит ошибку
+```
+
 ### /category/create
+```
+/category/create:
+    post:
+      tags: 
+      - category
+      summary: Создает категорию
+      description: Возращает созданую категорию
+      parameters:
+        - name: name
+          in: query
+          description: название категории
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Пустой запрос
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+```
 ### /category/delete
+``` 
+/category/delete:
+    post:
+      tags: 
+      - category
+      summary: удаляет категорию
+      description: Возращает удаленную категорию
+      parameters:
+        - name: id
+          in: query
+          description: id категории
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+```
 ### /category/update
+```
+  /category/update:
+    post:
+      tags: 
+      - category
+      summary: обновляет категорию
+      description: Возращает обновленную категорию
+      parameters:
+        - name: name
+          in: query
+          description: новое название категории
+          required: true
+          schema:
+            type: string
+            default:
+        - name: id
+          in: query
+          description: id категории
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description:  Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+```
+
 ### /goods/create
+```
+  /goods/create:
+    post:
+      tags: 
+      - goods
+      summary: Создает категорию
+      description: Возращает созданую категорию
+      parameters:
+        - name: name
+          in: query
+          description: название товара
+          required: true
+          schema:
+            type: string
+            default:
+        - name: category
+          in: query
+          description: название категории
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Пустой запрос
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+```
 ### /goods/delete
+```
+  /goods/delete:
+    post:
+      tags: 
+      - goods
+      summary: удаляет товар
+      description: Возращает удаленный товар
+      parameters:
+        - name: id
+          in: query
+          description: id товара
+          required: true
+          schema:
+            type: string
+            default: 
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+        '400':
+          description: Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+```
 ### /goods/update
+```
+ /goods/update:
+    post:
+      tags: 
+      - goods
+      summary: обновляет товар
+      description: Возращает обновленный товар
+      parameters:
+        - name: name
+          in: query
+          description: новое название товара
+          required: true
+          schema:
+            type: string
+            default:
+        - name: id
+          in: query
+          description: id товара
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goods'
+        '400':
+          description:  Пустой параметр id
+        '401':
+          description: ""
+        '500':
+          description: Выводит ошибку
+      security:
+        - JwtCookieAuth: []
+```
+
 ### /signin
+```
+ /signin:
+    post:
+      tags: 
+      - auth
+      summary: аутификация
+      description: аутифицирует пользователя и устанавливает jwt и refresh токен в cookie
+      parameters:
+        - name: guid
+          in: query
+          description: индификатор пользователя
+          required: true
+          schema:
+            type: string
+            default:
+      responses:
+        '200':
+          description: OK
+          headers:
+            Set-Cookie:
+              description: >
+                  Содержит сессионный файл cookie с именем token и refresh. Передавайте этот файл cookie обратно в последующих запросах.
+              schema: 
+                type: string
+```
+
 ### /refresh
+```
+  /refresh:
+    post:
+      tags: 
+      - auth
+      summary: аутификация
+      description: обновляет jwt и refresh токен в cookie удаляя старую сессию необходимо иметь refresh токен для роаботы ручки
+      responses:
+        '200':
+          description: OK
+          headers:
+            Set-Cookie:
+              description: >
+                  Содержит сессионный файл cookie с именем token и refresh. Передавайте этот файл cookie обратно в последующих запросах.
+              schema: 
+                type: string
+```
