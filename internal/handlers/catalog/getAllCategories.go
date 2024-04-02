@@ -13,9 +13,9 @@ func (h *marketHandlers) AllCategories(w http.ResponseWriter, r *http.Request) {
 	category, err := h.service.AllCategories(reqID)
 
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	w.Write(category)
-	w.WriteHeader(http.StatusOK)
 }

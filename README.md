@@ -213,7 +213,7 @@ type Session struct {
 ### Middleware
 Обертки над ручками для добавления дополнительной логики в данном случае авторизация и реквест айди
 #### Aut 
-Проверяет есть ли у пользователя токен и соответствует ли он необходимым условиям
+Проверяет есть ли у пользователя токен и соответствует ли он необходимым условиям 
 ``` 
 func Aut(next http.HandlerFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -262,12 +262,38 @@ func Aut(next http.HandlerFunc) http.HandlerFunc {
 }
 ```
 
+#### reqID 
+
+Добавляет айди для запросов для удобного отслеживания логов в рамках одного запроса
+
+``` 
+func ReqID(next http.HandlerFunc) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		reqID := r.Header.Get("X-Request-ID")
+		if reqID == "" {
+			reqID = uuid.New().String()
+		}
+		ctx := context.WithValue(r.Context(), "reqID", reqID)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+``` 
+### Доп пакеты
+
+#### Logger
+В качестве логера используется библиотека Логрус объявляется один раз и пробрасывается везде.
+
+#### Config
+Выгружает необходимые конфигурации из .env 
+
 
 
 ## Ручки и логика их работы
 
 ### /allcategories/
 
+Синтаксис: /allcategories/
 
 
 ### /goodsoncategory
