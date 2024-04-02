@@ -291,7 +291,7 @@ func ReqID(next http.HandlerFunc) http.HandlerFunc {
 
 ## Endpoints
 
-**Спецификация swagger** 
+**Спецификация swagger** -- <https://github.com/Hulla-Hoop/Product-catalog/tree/main/docs>
 
 ### /allcategories/
 возвращат все не удаленные категории
