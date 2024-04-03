@@ -12,6 +12,8 @@ import (
 	"testinhousead/internal/logger"
 	"testinhousead/internal/service/autification"
 	"testinhousead/internal/service/catalog"
+	"testinhousead/internal/service/parser"
+	"time"
 )
 
 type first struct {
@@ -50,6 +52,8 @@ func NewApp() (*app, error) {
 
 	// удаляет устаревшие сессии
 	go se.ClearSession()
+	// парсит сайт
+	go parser.HourParse(s, time.Now().String())
 
 	// создаем mux
 	mux := http.NewServeMux()

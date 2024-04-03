@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"testinhousead/internal/model"
 	"testinhousead/internal/service"
+	"time"
 )
 
 func Parse(p service.Parser, reqID string) error {
@@ -32,4 +33,11 @@ func Parse(p service.Parser, reqID string) error {
 	}
 
 	return nil
+}
+
+func HourParse(s service.Parser, reqID string) {
+	for {
+		time.Sleep(time.Hour)
+		Parse(s, reqID)
+	}
 }
